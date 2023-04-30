@@ -1,37 +1,81 @@
 # FlexUri
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/flex_uri`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+FlexUri is a versatile and modern gem for crafting and manipulating URIs in Ruby. Its intuitive, fluent interface provides a seamless way to build, update, and combine URI components, making it ideal for managing query parameters, paths, and URI segments.
 
 ## Installation
 
-Install the gem and add to the application's Gemfile by executing:
+Add this line to your application's Gemfile:
 
-    $ bundle add flex_uri
+```ruby
+gem 'flex_uri'
+```
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+And then execute:
 
-    $ gem install flex_uri
+```bash
+$ bundle install
+```
+
+Or install it yourself as:
+
+```bash
+$ gem install flex_uri
+```
 
 ## Usage
 
-TODO: Write usage instructions here
+Here's a basic example of how to use FlexUri:
 
-## Development
+```ruby
+require 'flex_uri'
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+# Create a new FlexUri instance
+url = FlexUri.create('https://example.com/path')
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+# Add and modify the URI components
+url.add_path('new_path')
+  .insert_query(q: 'search term', page: 1)
+  .scheme('http')
+  .host('new.example.com')
+  .port(8080)
+  .remove_query_key(:q)
+  .update_query(q: 'new search term', page: 2)
+  .set_fragment('section-1')
+  .build
+```
+
+## Available Methods
+
+Here's a list of available methods for manipulating URIs with FlexUri, along with brief explanations:
+
+- `add_path(path)`: Append a path segment to the URI's existing path.
+- `insert_query(params)`: Insert query parameters into the URI's existing query string.
+- `remove_query_key(key)`: Remove a specific key from the URI's query string.
+- `update_query(params)`: Update the URI's query string with new parameters.
+- `scheme(scheme, default: nil)`: Set the URI's scheme (e.g., 'HTTP', 'HTTPS').
+- `host(host, default: nil)`: Set the URI's host (e.g., 'example.com').
+- `port(port, default: nil)`: Set the URI's port number.
+- `user(user)`: Set the URI's user info.
+- `pass(pass)`: Set the URI's password info.
+- `fragment(fragment)`: Set the URI's fragment identifier.
+- `query_string(query_string)`: Set the entire query string of the URI.
+- `path(path)`: Set the URI's path.
+- `truncate_path(path)`: Set the URI's path and remove query and fragment parts.
+- `order_query_params`: Order the URI's query parameters alphabetically.
+- `encode_uri`: Encode the URI.
+- `resolve_relative(relative_url)`: Resolve a relative URI against the current URI.
+- `parse(url)`: Parse a new URL and update the current URI instance.
+- `validate`: Validate the URI by ensuring it has a scheme and a host.
+- `build`: Generate the final URI string.
+
+## Compatibility
+
+FlexUri is compatible with different Ruby versions and Rails projects.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/flex_uri. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/flex_uri/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/ualeks/flex_uri. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/ualeks/flex_uri/blob/master/CODE_OF_CONDUCT.md).
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the FlexUri project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/flex_uri/blob/master/CODE_OF_CONDUCT.md).
+The gem is available as open-source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
