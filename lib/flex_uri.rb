@@ -1,8 +1,12 @@
-require 'uri'
+# frozen_string_literal: true
 
+require 'uri'
+require 'pathname'
+
+# FlexUriUtils contains utility methods used in the FlexUri class.
 module FlexUriUtils
   def self.to_query(hash)
-    hash.map { |k, v| "#{URI.encode_www_form_component(k.to_s)}=#{URI.encode_www_form_component(v.to_s)}" }.join('&')
+    URI.encode_www_form(hash)
   end
 
   def self.symbolize_keys!(hash)
@@ -10,6 +14,8 @@ module FlexUriUtils
   end
 end
 
+# rubocop:disable Metrics/ClassLength
+# FlexUri is a class for flexible manipulation of URIs.
 class FlexUri
   attr_reader :uri
 
@@ -31,21 +37,21 @@ class FlexUri
   def insert_query(params)
     query_hash = parse_query(@uri.query)
     query_hash.merge!(params)
-    @uri.query = query_hash.to_query
+    @uri.query = FlexUriUtils.to_query(query_hash)
     self
   end
 
   def remove_query_key(key)
     query_hash = parse_query(@uri.query)
-    query_hash.delete(key.to_s)
-    @uri.query = query_hash.to_query
+    query_hash.delete(key.to_sym)
+    @uri.query = FlexUriUtils.to_query(query_hash)
     self
   end
 
   def update_query(params)
     query_hash = parse_query(@uri.query)
     query_hash.merge!(params)
-    @uri.query = query_hash.to_query
+    @uri.query = FlexUriUtils.to_query(query_hash)
     self
   end
 
@@ -69,8 +75,9 @@ class FlexUri
     self
   end
 
-  def pass(pass)
-    @uri.password = pass
+  def pass(pwd)
+    raise URI::InvalidURIError, "password component depends user component" unless @uri.user
+    @uri.password = pwd
     self
   end
 
@@ -85,7 +92,7 @@ class FlexUri
   end
 
   def path(path)
-    @uri.path = path
+    @uri.path = path.split('/').map { |part| URI.encode_www_form_component(part) }.join('/').gsub('+', '%20')
     self
   end
 
@@ -99,18 +106,14 @@ class FlexUri
   def order_query_params
     query_hash = parse_query(@uri.query)
     sorted_query = query_hash.sort.to_h
-    @uri.query = sorted_query.to_query
-    self
-  end
-
-  def encode_uri
-    encoded_uri = @uri.to_s.gsub(ENCODING_REGEXP) { |m| URI.encode_www_form_component(m) }
-    @uri = URI.parse(encoded_uri)
+    @uri.query = FlexUriUtils.to_query(sorted_query)
     self
   end
 
   def resolve_relative(relative_url)
-    @uri = @uri.merge(relative_url)
+    relative_uri = URI.parse(relative_url)
+    @uri.path = Pathname.new(File.join(File.dirname(@uri.path), relative_uri.path)).cleanpath.to_s
+    @uri.query = relative_uri.query if relative_uri.query
     self
   end
 
@@ -120,8 +123,7 @@ class FlexUri
   end
 
   def validate
-    raise URI::InvalidURIError unless @uri.scheme && @uri.host
-
+    raise URI::InvalidURIError, "URI is invalid" unless @uri.scheme && @uri.host
     self
   end
 
@@ -138,3 +140,4 @@ class FlexUri
     query_hash
   end
 end
+# rubocop:enable Metrics/ClassLength
