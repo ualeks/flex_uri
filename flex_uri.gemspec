@@ -12,13 +12,13 @@ Gem::Specification.new do |spec|
                  'interface provides a seamless way to build, update, and combine URI components. Ideal for ' \
                  'managing query parameters, paths, and URI segments'
   spec.description = 'FlexUri is a powerful and user-friendly Ruby gem designed to create, manipulate, and manage ' \
-                     'URIs with ease. Its fluent interface allows you to intuitively build, update, and combine various ' \
-                     'URI components, making it the perfect tool for handling query parameters, paths, and URI segments. With ' \
-                     'FlexUri, you can effortlessly navigate the complexities of URI manipulation and focus on crafting clean, ' \
-                     'efficient, and maintainable code.'
+                     'URIs with ease. Its fluent interface allows you to intuitively build, update, and combine ' \
+                     'various URI components, making it the perfect tool for handling query parameters, paths, and ' \
+                     'URI segments. With FlexUri, you can effortlessly navigate the complexities of URI manipulation ' \
+                     'and focus on crafting clean, efficient, and maintainable code.'
   spec.homepage = 'https://github.com/ualeks/flex_uri'
   spec.license = 'MIT'
-  spec.required_ruby_version = '>= 1.9.3'
+  spec.required_ruby_version = '>= 2.0'
 
   spec.metadata['homepage_uri'] = spec.homepage
   spec.metadata['source_code_uri'] = 'https://github.com/ualeks/flex_uri'

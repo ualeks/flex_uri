@@ -14,7 +14,6 @@ module FlexUriUtils
   end
 end
 
-# rubocop:disable Metrics/ClassLength
 # FlexUri is a class for flexible manipulation of URIs.
 class FlexUri
   attr_reader :uri
@@ -76,7 +75,8 @@ class FlexUri
   end
 
   def pass(pwd)
-    raise URI::InvalidURIError, "password component depends user component" unless @uri.user
+    raise URI::InvalidURIError, 'password component depends user component' unless @uri.user
+
     @uri.password = pwd
     self
   end
@@ -123,7 +123,8 @@ class FlexUri
   end
 
   def validate
-    raise URI::InvalidURIError, "URI is invalid" unless @uri.scheme && @uri.host
+    raise URI::InvalidURIError, 'URI is invalid' unless @uri.scheme && @uri.host
+
     self
   end
 
@@ -140,4 +141,3 @@ class FlexUri
     query_hash
   end
 end
-# rubocop:enable Metrics/ClassLength

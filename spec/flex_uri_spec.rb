@@ -3,6 +3,7 @@
 require 'spec_helper'
 require_relative '../lib/flex_uri'
 
+# rubocop:disable Metrics/BlockLength
 RSpec.describe FlexUri do
   let(:flex_uri) { FlexUri.create('https://example.com') }
 
@@ -66,7 +67,8 @@ RSpec.describe FlexUri do
 
   describe '#pass' do
     it 'raises an error if user component is missing' do
-      expect { flex_uri.pass('password') }.to raise_error(URI::InvalidURIError, "password component depends user component")
+      expect { flex_uri.pass('password') }.to raise_error(URI::InvalidURIError,
+                                                          'password component depends user component')
     end
 
     it 'sets the URI password' do
@@ -133,7 +135,7 @@ RSpec.describe FlexUri do
   describe '#validate' do
     it 'raises an error if the URI object is invalid' do
       invalid_uri = FlexUri.create('https://')
-      expect { invalid_uri.validate }.to raise_error(URI::InvalidURIError, "URI is invalid")
+      expect { invalid_uri.validate }.to raise_error(URI::InvalidURIError, 'URI is invalid')
     end
 
     it 'returns self if the URI object is valid' do
@@ -149,3 +151,4 @@ RSpec.describe FlexUri do
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
