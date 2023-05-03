@@ -2,6 +2,11 @@
 
 FlexUri is a versatile and modern gem for crafting and manipulating URIs in Ruby. Its intuitive, fluent interface provides a seamless way to build, update, and combine URI components, making it ideal for managing query parameters, paths, and URI segments.
 
+## Status
+[![Gem Version](https://badge.fury.io/rb/flex_uri.svg)](https://badge.fury.io/rb/flex_uri)
+![Build](https://github.com/ualeks/flex_uri/actions/workflows/main.yml/badge.svg?branch=master)
+
+
 ## Installation
 
 Add this line to your application's Gemfile:
